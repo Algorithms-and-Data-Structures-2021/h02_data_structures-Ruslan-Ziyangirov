@@ -15,7 +15,6 @@ ArrayList::ArrayList(int capacity) : capacity_{capacity} {
 
   size_ = 0;
   capacity_ = capacity;
-
   data_ = new Element [capacity_];
 
   std::fill(data_, data_+capacity_, Element::UNINITIALIZED);

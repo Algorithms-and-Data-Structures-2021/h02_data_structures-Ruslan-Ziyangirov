@@ -77,7 +77,7 @@ Element LinkedList::Remove(int index) {
   if(index==0){
       Node *new_head = head_->next;
       Element e = head_->data;
-      head_ = nullptr;
+      delete head_;
       head_ = new_head;
       size_ --;
       return  e;
