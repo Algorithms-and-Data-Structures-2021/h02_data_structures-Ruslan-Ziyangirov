@@ -26,38 +26,36 @@ void LinkedList::Add(Element e) {
 }
 
 void LinkedList::Insert(int index, Element e) {
-  internal::check_out_of_range(index, 0, size_ + 1);
+    internal::check_out_of_range(index, 0, size_ + 1);
 
-  // Tip 1: вставка элементов на позицию size эквивалентно операции добавления в конец
-  // Tip 2: рассмотрите несколько случаев:
-  //        (1) список пустой,
-  //        (2) добавляем в начало списка,
-  //        (3) добавляем в конец списка
-  //        (4) все остальное
+    // Tip 1: вставка элементов на позицию size эквивалентно операции добавления в конец
+    // Tip 2: рассмотрите несколько случаев:
+    //        (1) список пустой,
+    //        (2) добавляем в начало списка,
+    //        (3) добавляем в конец списка
+    //        (4) все остальное
 
-  // напишите свой код здесь ...
-    if(head_== nullptr){
-        Node *current_node = new Node(e, nullptr);
+    // напишите свой код здесь ...
+
+    Node* current_node = new Node(e, nullptr);
+
+    if (size_ == 0){
         head_ = current_node;
         tail_ = current_node;
     }
-    if(index==0){
-        Node *current_node = new Node(e, nullptr);
+    if (index == 0 && size_ > 0){
         current_node->next = head_;
         head_ = current_node;
     }
-    if(index==size_){
-        Node *current_node = new Node(e, nullptr);
+    if (index == size_ && size_ > 0){
         tail_->next = current_node;
         tail_ = current_node;
     }
-    if (index > 0 && index < size_){
-        Node *current_node = new Node(e, nullptr);
-        Node *pre_node = find_node(index-1);
-        Node *next_node = find_node(index+1);
-        pre_node->next = current_node;
-        current_node->next =next_node;
+    if (size_ > 0 && index > 0 && index < size_){
+        current_node->next = find_node(index);
+        find_node(index-1)->next = current_node;
     }
+
     size_++;
 }
 
@@ -125,31 +123,32 @@ int LinkedList::IndexOf(Element e) const {
     Node *current_node = head_;
 
     for (int i = 0; i < size_; ++i) {
-        current_node = current_node->next;
         if (current_node->data==e) {
             return i;
         }
+        current_node = current_node->next;
     }
 
   return -1;
 }
 
 Node *LinkedList::find_node(int index) const {
-  assert(index >= 0 && index < size_);
-  // Tip 1: можете сразу обработать случаи поиска начала и конца списка
-    if (index == 0) return head_;
-    if (index == size_ - 1) return tail_;
-
-  // напишите свой код здесь ...
-
-    Node *current_node = head_;
-
-    for(int i = 0; i < index; i++){
-        current_node = current_node->next;
+    assert(index >= 0 && index < size_);
+    // Tip 1: можете сразу обработать случаи поиска начала и конца списка
+    // напишите свой код здесь ...
+    if (index == 0){
+        return head_;
+    }
+    if (index == size_-1){
+        return tail_;
     }
 
+    Node* node = head_;
 
-  return current_node;
+    for (int i = 0; i < index; ++i) {
+        node = node->next;
+    }
+    return node;
 }
 
 // РЕАЛИЗОВАНО
